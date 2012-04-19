@@ -1,12 +1,12 @@
 class CairoPackage (CairoGraphicsPackage):
 	def __init__ (self):
-		Package.__init__ (self, 'cairo', '1.10.2')
+		Package.__init__ (self, 'cairo', '1.12.0')
 
 		if Package.profile.name == 'darwin':
 			self.sources.extend ([
 				# Fixes building on Lion
 				# http://cgit.freedesktop.org/cairo/commit/?id=8664df767cb9dbe48647f9853e3dcf551701d3ca
-				'patches/cairo-lion.patch',
+				# 'patches/cairo-lion.patch',
 			])
 
 	def prep (self):
