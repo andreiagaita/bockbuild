@@ -101,7 +101,7 @@ class BansheePackages:
 		if isinstance (self, DarwinProfile):
 			self.packages.extend ([
 				'monomac.py',
-				'ige-mac-integration.py'
+				'gtk-mac-integration.py'
 			])
 
 		if self.cmd_options.release_build:
