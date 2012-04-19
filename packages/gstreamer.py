@@ -3,7 +3,7 @@ class GstreamerBasePackage (GstreamerPackage):
                 GstreamerPackage.__init__ (self,
                         project  = 'gstreamer',
                         name = 'gstreamer',
-                        version = '0.10.35')
+                        version = '0.10.36')
 
                 self.configure = './configure --disable-gtk-doc --prefix="%{prefix}"'
 
