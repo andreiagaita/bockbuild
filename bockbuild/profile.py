@@ -1,6 +1,7 @@
 import os
 from optparse import OptionParser
-from util import *
+from util.util import *
+from util.csproj import *
 from environment import Environment
 from package import *
 
@@ -55,6 +56,12 @@ class Profile:
 		parser.add_option ('-p', '--show-source-paths', default = False,
 			action = 'store_true', dest = 'show_source_paths',
 			help = 'Output a list of all source paths/URLs for all packages')
+		parser.add_option ('', '--csproj-env', default = False,
+			action = 'store_true', dest = 'dump_environment_csproj',
+			help = 'Dump the profile environment xml formarted for use in .csproj files')
+		parser.add_option ('', '--csproj-insert', default = None,
+			action = 'store', dest = 'csproj_file',
+			help = 'Inserts the profile environment variables into VS/MonoDevelop .csproj files')
 
 		self.parser = parser
 		self.cmd_options, self.cmd_args = parser.parse_args ()
@@ -70,6 +77,16 @@ class Profile:
 		if self.cmd_options.dump_environment:
 			self.env.compile ()
 			self.env.dump ()
+			sys.exit (0)
+
+		if self.cmd_options.dump_environment_csproj:
+			self.env.compile ()
+			self.env.dump_csproj ()
+			sys.exit (0)
+
+		if self.cmd_options.csproj_file is not None:
+			self.env.compile ()
+			self.env.write_csproj (self.cmd_options.csproj_file)
 			sys.exit (0)
 
 		if not self.cmd_options.show_source_paths and \

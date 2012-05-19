@@ -1,7 +1,7 @@
 import os
 import shutil
 from plistlib import Plist
-from util import *
+from util.util import *
 from unixprofile import UnixProfile
 
 class DarwinProfile (UnixProfile):
@@ -35,6 +35,7 @@ class DarwinProfile (UnixProfile):
 			raise IOError ('Mac OS X SDKs 10.6 and 10.7 not found')
 
 		self.gcc_arch_flags = [ '-m32', '-arch i386' ]
+		self.gcc_debug_flags = [ '-O0', '-ggdb3' ]
 		
 		self.gcc_flags.extend (self.gcc_arch_flags)
 		self.ld_flags.extend (self.gcc_arch_flags)
@@ -45,6 +46,9 @@ class DarwinProfile (UnixProfile):
 		else:
 			self.env.set ('CC',  'gcc')
 			self.env.set ('CXX', 'g++')
+
+		self.gtk2_rc_files = os.path.join (os.getcwd (), 'skeleton.darwin', 'Contents', 'Resources', 'etc', 'gtk-2.0')
+		self.env.set ('GTK2_RC_FILES', '%{gtk2_rc_files}')
 
 	def bundle (self):
 		self.make_app_bundle ()

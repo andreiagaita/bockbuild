@@ -4,8 +4,6 @@ import os
 import sys
 import subprocess
 
-#import util
-
 def log (level, message):
 	if level == 0:
 		print '==> %s' % message
