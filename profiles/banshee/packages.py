@@ -37,6 +37,8 @@ class BansheePackages:
 			'gconf-dummy.py',
 			'libgpg-error.py',
 			'libgcrypt.py',
+			'gmp.py',
+			'nettle.py',
 			'gnutls.py',
 			'glib-networking.py',
 			'libsoup.py',
