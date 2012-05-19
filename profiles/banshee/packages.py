@@ -22,7 +22,7 @@ class BansheePackages:
 			'libjpeg.py',
 			'libxml2.py',
 			'libffi.py',
-			'tiff.py',
+			'libtiff.py',
 			'freetype.py',
 			'fontconfig.py',
 			'pixman.py',
