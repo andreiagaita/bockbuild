@@ -5,8 +5,8 @@ from util.util import *
 from unixprofile import UnixProfile
 
 class DarwinProfile (UnixProfile):
-	def __init__ (self):
-		UnixProfile.__init__ (self)
+	def __init__ (self, prefix = False):
+		UnixProfile.__init__ (self, prefix)
 		
 		self.name = 'darwin'
 		self.os_x_major = 10
@@ -15,21 +15,22 @@ class DarwinProfile (UnixProfile):
 		if (not os.path.isdir (sdkroot)):
 			sdkroot = '/Developer/SDKs/'
 
-		if (os.path.isdir (sdkroot + 'MacOSX10.7.sdk')):
-			self.os_x_minor = 7
-			self.mac_sdk_path = sdkroot + 'MacOSX10.7.sdk'
-			self.gcc_flags.extend ([
-				'-D_XOPEN_SOURCE',
-				'-isysroot %{mac_sdk_path}',
-				'-mmacosx-version-min=10.7',
-			])
-		elif (os.path.isdir (sdkroot + 'MacOSX10.6.sdk')):
+		if (os.path.isdir (sdkroot + 'MacOSX10.6.sdk')):
 			self.os_x_minor = 6
 			self.mac_sdk_path = sdkroot + 'MacOSX10.6.sdk'
 			self.gcc_flags.extend ([
 				'-D_XOPEN_SOURCE',
 				'-isysroot %{mac_sdk_path}',
 				'-mmacosx-version-min=10.6',
+			])
+			self.mac_sdk_path = sdkroot + 'MacOSX10.6.sdk'
+		elif (os.path.isdir (sdkroot + 'MacOSX10.7.sdk')):
+			self.os_x_minor = 7
+			self.mac_sdk_path = sdkroot + 'MacOSX10.7.sdk'
+			self.gcc_flags.extend ([
+				'-D_XOPEN_SOURCE',
+				'-isysroot %{mac_sdk_path}',
+				'-mmacosx-version-min=10.7',
 			])
 		else:
 			raise IOError ('Mac OS X SDKs 10.6 and 10.7 not found')
@@ -40,12 +41,12 @@ class DarwinProfile (UnixProfile):
 		self.gcc_flags.extend (self.gcc_arch_flags)
 		self.ld_flags.extend (self.gcc_arch_flags)
 
-		if (os.path.isfile ('/usr/bin/gcc-4.2')):
-			self.env.set ('CC',  'gcc-4.2')
-			self.env.set ('CXX', 'g++-4.2')
-		else:
-			self.env.set ('CC',  'gcc')
-			self.env.set ('CXX', 'g++')
+		#if (os.path.isfile ('/usr/bin/gcc-4.2')):
+		#	self.env.set ('CC',  'gcc-4.2')
+		#	self.env.set ('CXX', 'g++-4.2')
+		#else:
+		self.env.set ('CC',  'gcc')
+		self.env.set ('CXX', 'g++')
 
 		self.gtk2_rc_files = os.path.join (os.getcwd (), 'skeleton.darwin', 'Contents', 'Resources', 'etc', 'gtk-2.0')
 		self.env.set ('GTK2_RC_FILES', '%{gtk2_rc_files}')

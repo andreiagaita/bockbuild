@@ -6,10 +6,10 @@ from environment import Environment
 from package import *
 
 class Profile:
-	def __init__ (self):
+	def __init__ (self, prefix = False):
 		self.name = 'default'
 		self.build_root = os.path.join (os.getcwd (), 'build-root')
-		self.prefix = os.path.join (self.build_root, '_install')
+		self.prefix = prefix if prefix else os.path.join (self.build_root, '_install')
 		self.env = Environment (self)
 		self.env.set ('BUILD_PREFIX', self.prefix)
 		self.env.set ('BOCKBUILD_ENV', '1')
@@ -26,6 +26,9 @@ class Profile:
 		parser.add_option ('-b', '--build',
 			action = 'store_true', dest = 'do_build', default = False,
 			help = 'build the profile')
+		parser.add_option ('-P', '--package',
+			action = 'store_true', dest = 'do_package', default = False,
+			help = 'package the profile')
 		parser.add_option ('-z', '--bundle',
 			action = 'store_true', dest = 'do_bundle', default = False,
 			help = 'create a distributable bundle from a build')
@@ -66,6 +69,9 @@ class Profile:
 		self.parser = parser
 		self.cmd_options, self.cmd_args = parser.parse_args ()
 
+	def make_package (self, output_dir):
+		sys.exit ("Package support not implemented for this profile")
+
 	def bundle (self, output_dir):
 		sys.exit ('Bundle support not implemented for this profile')
 
@@ -91,7 +97,8 @@ class Profile:
 
 		if not self.cmd_options.show_source_paths and \
 			not self.cmd_options.do_build and \
-			not self.cmd_options.do_bundle:
+			not self.cmd_options.do_bundle and \
+			not self.cmd_options.do_package:
 			self.parser.print_help ()
 			sys.exit (1)
 
@@ -151,3 +158,6 @@ class Profile:
 				self.bundle_skeleton_dir = os.path.join (os.getcwd (), 'skeleton')
 			self.bundle ()
 			return
+
+		if self.cmd_options.do_package:
+			self.package ()
