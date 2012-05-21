@@ -22,7 +22,7 @@ class BansheePackages:
 			'libjpeg.py',
 			'libxml2.py',
 			'libffi.py',
-			'tiff.py',
+			'libtiff.py',
 			'freetype.py',
 			'fontconfig.py',
 			'pixman.py',
@@ -107,7 +107,7 @@ class BansheePackages:
 			])
 
 		if self.cmd_options.release_build:
-			self.packages.append ('banshee.py')
+			self.packages.append ('banshee-git.py')
 
 		self.packages = [os.path.join ('..', '..', 'packages', p)
 			for p in self.packages]
