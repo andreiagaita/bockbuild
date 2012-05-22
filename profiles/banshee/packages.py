@@ -45,6 +45,27 @@ class BansheePackages:
 			'sqlite.py'
 		])
 
+		# banshee-community-extensions
+		self.packages.extend ([
+			# lastfm fingerprint
+			'fftw.py',
+			'libsamplerate.py',
+
+			# openvp (currently not working)
+			#'libopentk.py',
+			'libsdl.py',
+			'libglade.py',
+
+		])
+
+		# exclude package with possible patent/copyright issues
+		# when doing release builds
+		if not self.cmd_options.release_build:
+			self.packages.extend ([
+				# BCE streamrecorder
+				'lame.py',
+			])
+
 		# WebKit
 		if not isinstance (self, DarwinProfile):
 			self.packages.extend ([
