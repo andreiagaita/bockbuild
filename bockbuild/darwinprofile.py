@@ -38,6 +38,9 @@ class DarwinProfile (UnixProfile):
 		self.gcc_arch_flags = [ '-m32', '-arch i386' ]
 		self.gcc_debug_flags = [ '-O0', '-ggdb3' ]
 		
+		if self.cmd_options.debug is True:
+			self.gcc_flags.extend (self.gcc_debug_flags)
+	
 		self.gcc_flags.extend (self.gcc_arch_flags)
 		self.ld_flags.extend (self.gcc_arch_flags)
 
