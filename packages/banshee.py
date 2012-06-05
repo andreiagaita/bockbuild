@@ -1,40 +1,21 @@
 class BansheePackage (Package):
 	def __init__ (self):
-		Package.__init__ (self, 'banshee-1', '1.9.4')
+		Package.__init__ (self, 'banshee', 'stable-2.4')
 
 		self.sources = [
-			'http://download.banshee.fm/banshee/unstable/%{version}/%{name}-%{version}.tar.bz2'
+			'git://git.gnome.org/banshee'
 		]
+		self.git_branch = 'stable-2.4'
 
-#		self.configure = './autogen.sh --prefix=%{prefix}'
+		self.configure = [ 'NOCONFIGURE=1 ./autogen.sh && ./profile-configure %{profile.name} --prefix=%{prefix}' ]
+		self.sources.extend([
 
-		self.configure_flags = [
-			'--disable-docs',
-			'--disable-boo',
-			'--disable-youtube',
-			'--disable-gnome'
-		]
-
-		self.configure_flags.extend ([
-			'--disable-hal',
-			'--disable-mtp',
-			'--disable-daap',
-			'--disable-ipod',
-			'--disable-appledevice'
+			# switch over from ige_* to gtk_* binding
+			'patches/banshee-gtk-mac-integration.patch'
 		])
 
-		if Package.profile.name == 'darwin':
-			self.configure_flags.extend ([
-				'--disable-youtube',
-				'--disable-webkit',
-				'--disable-mtp',
-				'--disable-daap',
-				'--disable-ipod',
-				'--with-vendor-build-id="banshee.fm OSX 10.5+ i386/Intel"'
-			])
-#		elif Package.profile.name == 'linux':
-#			self.configure_flags.extend ([
-#				'--with-vendor-build-id="banshee.fm Linux i386"'
-#			])
+	def prep (self):
+		Package.prep (self)
+		self.sh ('patch -p1 < %{sources[1]}')
 
 BansheePackage ()
