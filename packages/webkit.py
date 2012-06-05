@@ -6,11 +6,8 @@ class WebkitPackage (Package):
 			],
 			configure_flags = [
 				'--disable-video',
-				'--disable-xpath',
-				'--disable-xslt',
-				'--disable-wml',
-				'--disable-ruby',
 				'--disable-geolocation',
+				'--disable-xslt',
 			]
 		)
 
