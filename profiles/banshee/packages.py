@@ -66,14 +66,21 @@ class BansheePackages:
 				'lame.py',
 			])
 
-		# WebKit
+		# WebKit-gtk
+		# TODO on darwin currently fails on the build stage
+		# so don't include it on darwin for now
 		if not isinstance (self, DarwinProfile):
 			self.packages.extend ([
-				'gperf.py',
-				'enchant.py',
-				'libicu.py',
 				'webkit.py'
 			])
+
+		# WebKit-gtk dependendies
+		self.packages.extend ([
+			'gperf.py',
+			'enchant.py',
+			'libicu.py',
+			'zlib.py',
+		])
 
 		# Theme
 		self.packages.extend ([
