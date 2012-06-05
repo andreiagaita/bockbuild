@@ -5,16 +5,14 @@ class BansheePackage (Package):
 		self.sources = [
 			'git://git.gnome.org/banshee'
 		]
+		self.git_branch = 'master'
 
 		self.configure = [ 'NOCONFIGURE=1 ./autogen.sh && ./profile-configure %{profile.name} --prefix=%{prefix}' ]
 		self.sources.extend([
-
-			# switch over from ige_* to gtk_* binding
-			'patches/banshee-gtk-mac-integration.patch'
 		])
 
 	def prep (self):
 		Package.prep (self)
-		self.sh ('patch -p1 < %{sources[1]}')
+		#self.sh ('patch -p1 < %{sources[1]}')
 
 BansheePackage ()
