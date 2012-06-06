@@ -89,11 +89,16 @@ class Profile:
 			sys.exit (0)
 
 		if self.cmd_options.dump_environment_csproj:
+			# specify to use our GAC, else MonoDevelop would
+			# use its own 
+			self.env.set ('MONO_GAC_PREFIX', self.prefix)
+
 			self.env.compile ()
 			self.env.dump_csproj ()
 			sys.exit (0)
 
 		if self.cmd_options.csproj_file is not None:
+			self.env.set ('MONO_GAC_PREFIX', self.prefix)
 			self.env.compile ()
 			self.env.write_csproj (self.cmd_options.csproj_file)
 			sys.exit (0)
