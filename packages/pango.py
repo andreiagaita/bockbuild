@@ -1,9 +1,9 @@
-class PangoPackage (GnomePackage):
+class PangoPackage (GnomeXzPackage):
 	def __init__ (self):
 		GnomePackage.__init__ (self,
 			'pango',
-			version_major = '1.29',
-			version_minor = '5',
+			version_major = '1.30',
+			version_minor = '1',
 			configure_flags = [
 				'--without-x'
 			]
@@ -19,27 +19,18 @@ class PangoPackage (GnomePackage):
 			# revert git 0e091322, it requires unstable glib simply for some deprecation marker macros
 			'patches/pango-stable-glib.patch',
 
-			# 3 
-			# [Bug 664125] - Zero-width spaces cause missing characters
-			'http://git.gnome.org/browse/pango/patch/?id=dbf40154eb5804f4e8c582f12b30b8291c9c3532',
-	
-			# [Bug 647969] CoreText patches disabled due to blocker/crasher: 
-			# https://bugzilla.gnome.org/show_bug.cgi?id=647969
+			# Post-1.30.1 commits from git
 
-			# CoreText backend: implement font fallbacks
-			#'http://git.gnome.org/browse/pango/patch/?id=37e74619215ede8a4fa7f5edabab14b517e673b2',
-
-			# Make CoreText backend more robust against broken fonts
-			#'http://git.gnome.org/browse/pango/patch/?id=38ada127bfb53911ecd64ced26fd23ec67138b43',
+			# Fix crash on small-caps fonts in CoreText backend
+			# see https://bugzilla.gnome.org/show_bug.cgi?id=647969
+			'http://git.gnome.org/browse/pango/patch/?id=70a85d441d973883af4afb57599bc570eeea4c83'
 		])
 
 	def prep (self):
 		GnomePackage.prep (self)
 		self.sh ('patch -p0 < "%{sources[1]}"')
-		self.sh ('patch -p1 < "%{sources[2]}"')
-		self.sh ('patch -p1 < "%{sources[3]}"')
-		#if Package.profile.name == 'darwin':
-		#	for p in range (4, len (self.sources)):
-		#		self.sh ('patch -p1 < "%{sources[' + str (p) + ']}"')
+		if Package.profile.name == 'darwin':
+			for p in range (2, len (self.sources)):
+				self.sh ('patch -p1 < "%{sources[' + str (p) + ']}"')
 
 PangoPackage ()
