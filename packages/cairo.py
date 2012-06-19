@@ -1,6 +1,6 @@
 class CairoPackage (CairoGraphicsPackage):
 	def __init__ (self):
-		Package.__init__ (self, 'cairo', '1.12.0')
+		Package.__init__ (self, 'cairo', '1.10.2')
 
 		if Package.profile.name == 'darwin':
 			self.sources.extend ([
