@@ -72,15 +72,12 @@ class BansheePackages:
 		if not isinstance (self, DarwinProfile):
 			self.packages.extend ([
 				'webkit.py'
+		# WebKit-gtk dependencies
+				'gperf.py',
+				'enchant.py',
+				'libicu.py',
+				'zlib.py',
 			])
-
-		# WebKit-gtk dependendies
-		self.packages.extend ([
-			'gperf.py',
-			'enchant.py',
-			'libicu.py',
-			'zlib.py',
-		])
 
 		# Theme
 		self.packages.extend ([
