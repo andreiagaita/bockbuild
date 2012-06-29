@@ -42,7 +42,8 @@ class BansheePackages:
 			'gnutls.py',
 			'glib-networking.py',
 			'libsoup.py',
-			'sqlite.py'
+			'sqlite.py',
+			'mono-upnp.py'
 		])
 
 		# banshee-community-extensions
