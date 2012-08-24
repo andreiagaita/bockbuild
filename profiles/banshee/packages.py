@@ -69,7 +69,7 @@ class BansheePackages:
 		# WebKit-gtk
 		# TODO on darwin currently fails on the build stage
 		# so don't include it on darwin for now
-		if not isinstance (self, DarwinProfile):
+		#if not isinstance (self, DarwinProfile):
 			self.packages.extend ([
 		# WebKit-gtk dependencies
 				'gperf.py',
