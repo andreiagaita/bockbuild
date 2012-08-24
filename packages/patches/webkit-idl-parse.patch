@@ -1,0 +1,12 @@
+--- GNUmakefile.in.orig	2012-04-24 06:17:27.000000000 +0100
++++ GNUmakefile.in	2012-06-17 01:38:29.000000000 +0100
+@@ -73848,8 +73848,7 @@
+ .SECONDARY:
+ $(supplemental_dependency_file): $(SCRIPTS_FOR_RESOLVE_SUPPLEMENTAL) $(dom_binding_idls)
+	$(AM_V_GEN)
+-	$(AM_V_at)echo -n > $(idl_files_list)
+-	$(AM_V_at)($(foreach idl, $(dom_binding_idls), echo $(idl) &&) echo -n) >> $(idl_files_list)
++	$(AM_V_at)$(foreach idl, $(dom_binding_idls), echo $(idl) &&) >> $(idl_files_list)
+	$(AM_V_at)$(PERL) -I$(WebCore)/bindings/scripts $(WebCore)/bindings/scripts/resolve-supplemental.pl --defines "LANGUAGE_JAVASCRIPT=1 $(FEATURE_DEFINES)" --idlFilesList $(idl_files_list) --supplementalDependencyFile $@
+
+ # This does not appear to work correctly with gnumake unless

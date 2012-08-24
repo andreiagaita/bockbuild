@@ -1,0 +1,58 @@
+--- Source/JavaScriptCore/wtf/StackBounds.cpp.orig	2012-06-17 02:34:04.000000000 +0100
++++ Source/JavaScriptCore/wtf/StackBounds.cpp	2012-06-17 02:33:46.000000000 +0100
+@@ -25,6 +25,9 @@
+
+ #include <mach/task.h>
+ #include <mach/thread_act.h>
++#ifndef _DARWIN_C_SOURCE
++#define _DARWIN_C_SOURCE
++#endif
+ #include <pthread.h>
+
+ #elif OS(WINDOWS)
+--- Source/JavaScriptCore/wtf/ThreadSpecific.h.orig	2012-06-17 02:41:42.000000000 +0100
++++ Source/JavaScriptCore/wtf/ThreadSpecific.h	2012-06-17 02:41:48.000000000 +0100
+@@ -45,6 +45,15 @@
+ #include <wtf/StdLibExtras.h>
+
+ #if USE(PTHREADS)
++
++#if OS(DARWIN)
++#include <mach/task.h>
++#include <mach/thread_act.h>
++#ifndef _DARWIN_C_SOURCE
++#define _DARWIN_C_SOURCE
++#endif
++#endif
++
+ #include <pthread.h>
+ #elif OS(WINDOWS)
+ #include <windows.h>
+--- Source/JavaScriptCore/heap/MachineStackMarker.h.orig	2012-06-26 20:38:14.000000000 +0100
++++ Source/JavaScriptCore/heap/MachineStackMarker.h	2012-06-26 20:46:21.000000000 +0100
+@@ -22,6 +22,12 @@
+ #ifndef MachineThreads_h
+ #define MachineThreads_h
+
++#if OS(DARWIN)
++#ifndef _DARWIN_C_SOURCE
++#define _DARWIN_C_SOURCE
++#endif
++#endif
++
+ #include <pthread.h>
+ #include <wtf/Noncopyable.h>
+ #include <wtf/ThreadingPrimitives.h>
+--- Source/JavaScriptCore/wtf/ThreadingPrimitives.h.orig	2012-06-26 20:47:45.000000000 +0100
++++ Source/JavaScriptCore/wtf/ThreadingPrimitives.h	2012-06-26 20:47:53.000000000 +0100
+@@ -43,6 +43,11 @@
+ #endif
+
+ #if USE(PTHREADS)
++#if OS(DARWIN)
++#ifndef _DARWIN_C_SOURCE
++#define _DARWIN_C_SOURCE
++#endif
++#endif
+ #include <pthread.h>
+ #endif

@@ -8,6 +8,7 @@ class WebkitPackage (Package):
 				'--disable-video',
 				'--disable-geolocation',
 				'--disable-xslt',
+				'--verbose',
 			]
 		)
 
@@ -21,7 +22,9 @@ class WebkitPackage (Package):
 			self.sources.extend ([
 				# disable xrender when building with quartz, see
 				# https://trac.macports.org/attachment/ticket/34086/xrender-check.patch
-				'https://trac.macports.org/raw-attachment/ticket/34086/xrender-check.patch'
+				'https://trac.macports.org/raw-attachment/ticket/34086/xrender-check.patch',
+				'patches/webkit-idl-parse.patch',
+				'patches/webkit-build-pthread.patch'
 			])
 
 	def prep (self):
