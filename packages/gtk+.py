@@ -56,6 +56,11 @@ class GtkPackage (GnomeXzPackage):
 
 				# Bug 3457 - [GTK] Support more standard keyboard shortcuts in dialogs
 				'https://bugzilla.xamarin.com/attachment.cgi?id=2240',
+
+				# Bug 682889 - [GTK] fix dragging crash banshee
+				# https://bugzilla.gnome.org/show_bug.cgi?id=682889 
+				# https://bugzilla.gnome.org/show_bug.cgi?id=678645
+				'http://bugzilla-attachments.gnome.org/attachment.cgi?id=222667',
 			])
 
 	def prep (self):

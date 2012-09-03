@@ -47,10 +47,5 @@ class UnixProfile (Profile):
 		run_shell ('echo "\n### BUILDING SOLITARY"')
 		solitary_path = os.path.join (self.profile_dir, "../../solitary")
 		os.chdir (self.profile_dir)
-		print "CURRENT WORKING DIR:"
-		print os.getcwd ()
-		print "#####"
 		cmd = "pushd %s && make && popd" % solitary_path
-		print cmd 
-		print "#####"
 		run_shell (cmd)
