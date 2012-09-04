@@ -1,5 +1,5 @@
---- Source/JavaScriptCore/wtf/StackBounds.cpp.orig	2012-06-17 02:34:04.000000000 +0100
-+++ Source/JavaScriptCore/wtf/StackBounds.cpp	2012-06-17 02:33:46.000000000 +0100
+--- Source/WTF/wtf/StackBounds.cpp.orig	2012-06-17 02:34:04.000000000 +0100
++++ Source/WTF/wtf/StackBounds.cpp	2012-06-17 02:33:46.000000000 +0100
 @@ -25,6 +25,9 @@
 
  #include <mach/task.h>
@@ -10,9 +10,9 @@
  #include <pthread.h>
 
  #elif OS(WINDOWS)
---- Source/JavaScriptCore/wtf/ThreadSpecific.h.orig	2012-06-17 02:41:42.000000000 +0100
-+++ Source/JavaScriptCore/wtf/ThreadSpecific.h	2012-06-17 02:41:48.000000000 +0100
-@@ -45,6 +45,15 @@
+--- Source/WTF/wtf/ThreadSpecific.h.orig	2012-06-17 02:41:42.000000000 +0100
++++ Source/WTF/wtf/ThreadSpecific.h	2012-06-17 02:41:48.000000000 +0100
+@@ -46,6 +46,15 @@
  #include <wtf/StdLibExtras.h>
 
  #if USE(PTHREADS)
@@ -28,12 +28,27 @@
  #include <pthread.h>
  #elif OS(WINDOWS)
  #include <windows.h>
---- Source/JavaScriptCore/heap/MachineStackMarker.h.orig	2012-06-26 20:38:14.000000000 +0100
-+++ Source/JavaScriptCore/heap/MachineStackMarker.h	2012-06-26 20:46:21.000000000 +0100
-@@ -22,6 +22,12 @@
- #ifndef MachineThreads_h
- #define MachineThreads_h
-
+--- Source/JavaScriptCore/heap/MachineStackMarker.cpp.orig	2012-09-04 01:23:31.000000000 +0100
++++ Source/JavaScriptCore/heap/MachineStackMarker.cpp	2012-09-04 01:24:53.000000000 +0100
+@@ -38,6 +38,11 @@
+ #include <mach/thread_act.h>
+ #include <mach/vm_map.h>
+ 
++#ifndef _DARWIN_C_SOURCE
++#define _DARWIN_C_SOURCE
++#endif
++#include <pthread.h>
++
+ #elif OS(WINDOWS)
+ 
+ #include <windows.h>
+--- Source/JavaScriptCore/runtime/JSLock.cpp.orig	2012-09-04 01:25:52.000000000 +0100
++++ Source/JavaScriptCore/runtime/JSLock.cpp	2012-09-04 01:26:31.000000000 +0100
+@@ -28,6 +28,13 @@
+ #include "ScopeChain.h"
+ 
+ #if USE(PTHREADS)
++
 +#if OS(DARWIN)
 +#ifndef _DARWIN_C_SOURCE
 +#define _DARWIN_C_SOURCE
@@ -41,13 +56,30 @@
 +#endif
 +
  #include <pthread.h>
- #include <wtf/Noncopyable.h>
- #include <wtf/ThreadingPrimitives.h>
---- Source/JavaScriptCore/wtf/ThreadingPrimitives.h.orig	2012-06-26 20:47:45.000000000 +0100
-+++ Source/JavaScriptCore/wtf/ThreadingPrimitives.h	2012-06-26 20:47:53.000000000 +0100
+ #endif
+ 
+--- Source/WebCore/loader/FTPDirectoryParser.cpp.orig	2012-09-04 01:27:25.000000000 +0100
++++ Source/WebCore/loader/FTPDirectoryParser.cpp	2012-09-04 01:28:12.000000000 +0100
+@@ -29,6 +29,14 @@
+ // On Windows, use the threadsafe *_r functions provided by pthread.
+ #elif OS(WINDOWS) && (USE(PTHREADS) || HAVE(PTHREAD_H))
+ #include <pthread.h>
++
++#elif OS(DARWIN)
++#ifndef _DARWIN_C_SOURCE
++#define _DARWIN_C_SOURCE
++#endif
++
++#include <pthread.h>
++
+ #endif
+ 
+ #include <wtf/ASCIICType.h>
+--- Source/WTF/wtf/ThreadingPrimitives.h.orig	2012-09-04 01:36:28.000000000 +0100
++++ Source/WTF/wtf/ThreadingPrimitives.h	2012-09-04 01:36:44.000000000 +0100
 @@ -43,6 +43,11 @@
  #endif
-
+ 
  #if USE(PTHREADS)
 +#if OS(DARWIN)
 +#ifndef _DARWIN_C_SOURCE
@@ -56,3 +88,15 @@
 +#endif
  #include <pthread.h>
  #endif
+ 
+--- Source/WTF/wtf/InlineASM.h.orig	2012-09-04 01:55:14.000000000 +0100
++++ Source/WTF/wtf/InlineASM.h	2012-09-04 01:55:19.000000000 +0100
+@@ -77,7 +77,7 @@
+ // FIXME: figure out how this works on all the platforms. I know that
+ // on Linux, the preferred form is ".Lstuff" as opposed to "Lstuff".
+ // Don't know about any of the others.
+-#if PLATFORM(MAC)
++#if OS(DARWIN)
+ #define LOCAL_LABEL_STRING(name) "L" #name
+ #elif OS(LINUX)
+ #define LOCAL_LABEL_STRING(name) ".L" #name

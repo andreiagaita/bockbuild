@@ -1,12 +1,12 @@
---- GNUmakefile.in.orig	2012-04-24 06:17:27.000000000 +0100
-+++ GNUmakefile.in	2012-06-17 01:38:29.000000000 +0100
-@@ -73848,8 +73848,7 @@
+--- Source/WebCore/GNUmakefile.am.orig	2012-09-04 03:11:39.000000000 +0100
++++ Source/WebCore/GNUmakefile.am	2012-09-04 03:11:57.000000000 +0100
+@@ -928,8 +928,7 @@
  .SECONDARY:
- $(supplemental_dependency_file): $(SCRIPTS_FOR_RESOLVE_SUPPLEMENTAL) $(dom_binding_idls)
-	$(AM_V_GEN)
+ $(supplemental_dependency_file): $(SCRIPTS_FOR_PREPROCESS_IDLS) $(dom_binding_idls) $(idl_attributes_file)
+ 	$(AM_V_GEN)
 -	$(AM_V_at)echo -n > $(idl_files_list)
 -	$(AM_V_at)($(foreach idl, $(dom_binding_idls), echo $(idl) &&) echo -n) >> $(idl_files_list)
-+	$(AM_V_at)$(foreach idl, $(dom_binding_idls), echo $(idl) &&) >> $(idl_files_list)
-	$(AM_V_at)$(PERL) -I$(WebCore)/bindings/scripts $(WebCore)/bindings/scripts/resolve-supplemental.pl --defines "LANGUAGE_JAVASCRIPT=1 $(FEATURE_DEFINES)" --idlFilesList $(idl_files_list) --supplementalDependencyFile $@
-
++	$(AM_V_at)$(foreach idl, $(dom_binding_idls), echo $(idl) >> $(idl_files_list) &&) echo 'Done'
+ 	$(AM_V_at)$(PERL) -I$(WebCore)/bindings/scripts $(WebCore)/bindings/scripts/preprocess-idls.pl --defines "LANGUAGE_JAVASCRIPT=1 $(FEATURE_DEFINES)" --idlFilesList $(idl_files_list) --supplementalDependencyFile $@ --idlAttributesFile $(idl_attributes_file)
+ 
  # This does not appear to work correctly with gnumake unless

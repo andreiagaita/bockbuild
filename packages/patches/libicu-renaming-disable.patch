@@ -1,0 +1,20 @@
+--- common/unicode/uvernum.h.orig	2012-09-04 13:57:16.000000000 +0100
++++ common/unicode/uvernum.h	2012-09-04 13:57:26.000000000 +0100
+@@ -74,7 +74,7 @@
+  *  This value will change in the subsequent releases of ICU
+  *  @stable ICU 2.6
+  */
+-#define U_ICU_VERSION_SUFFIX _45
++#define U_ICU_VERSION_SUFFIX 
+ 
+ /** Glued version suffix function for renamers 
+  *  This value will change in the subsequent releases of ICU.
+@@ -83,7 +83,7 @@
+  *  @draft ICU 4.2
+  */
+ #ifndef U_ICU_ENTRY_POINT_RENAME
+-#define U_ICU_ENTRY_POINT_RENAME(x)    x ## _45
++ #define U_ICU_ENTRY_POINT_RENAME(x)
+ #endif
+ 
+ /** The current ICU library version as a dotted-decimal string. The patchlevel
